@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>JARVIS // Personal OS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">JARVIS<span>//</span></div>
+        <div class="eyebrow">Personal operating system</div>
+        <button class="nav active" data-page="dashboard">
+          <span class="ico">◈</span> Visão geral
+        </button>
+        <div class="eyebrow">Performance</div>
+        <button class="nav" data-page="treino"><span class="ico">⌁</span> Treino</button>
+        <button class="nav" data-page="estudo"><span class="ico">▤</span> Estudos</button>
+        <div class="eyebrow">Vida pessoal</div>
+        <button class="nav" data-page="notas"><span class="ico">✎</span> Anotações</button>
+        <button class="nav" data-page="financas">
+          <span class="ico">◉</span> Gestão financeira
+        </button>
+        <button class="nav" data-page="dia"><span class="ico">⌗</span> Dia a dia</button>
+        <div class="eyebrow">Inteligência</div>
+        <button class="nav" data-page="assistente"><span class="ico">◍</span> Assistente</button>
+        <div class="sidebar-foot">
+          <div><i class="led"></i>SISTEMA ONLINE</div>
+          <p id="saveStatus">…</p>
+        </div>
+      </aside>
+      <main>
+        <div class="topbar">
+          <div>
+            <button class="btn mobile-menu" id="menuBtn">☰</button>
+            <span class="crumb">JARVIS / <span id="crumb">DASHBOARD</span></span>
+          </div>
+          <div class="clock" id="clock">00:00:00</div>
+        </div>
+        <section id="dashboard" class="page">
+          <div class="hero">
+            <div class="eyebrow" style="padding: 0; color: var(--cyan)">
+              SYSTEM READY / PERSONAL HUB
+            </div>
+            <h1 class="heading">Assuma o <em>controle.</em></h1>
+            <p class="sub">
+              Seu centro de comando pessoal. Organize os treinos, evolua nos estudos, registre
+              ideias e acompanhe seu dinheiro — tudo em um só lugar.
+            </p>
+            <p style="margin-top: 20px; font: 11px &quot;JetBrains Mono&quot;; color: var(--lime)">
+              <i class="led"></i><span id="today"></span>
+            </p>
+          </div>
+          <div class="stats">
+            <div class="card" style="--accent: var(--cyan)">
+              <div class="card-label">Tarefas pendentes</div>
+              <div class="metric" id="statTasks">0</div>
+              <div class="small">Rotina em andamento</div>
+            </div>
+            <div class="card" style="--accent: var(--pink)">
+              <div class="card-label">Treinos registrados</div>
+              <div class="metric" id="statWorkout">0</div>
+              <div class="small">Sessões concluídas</div>
+            </div>
+            <div class="card" style="--accent: var(--lime)">
+              <div class="card-label">Sessões de estudo</div>
+              <div class="metric" id="statStudy">0</div>
+              <div class="small">Blocos registrados</div>
+            </div>
+            <div class="card" style="--accent: var(--orange)">
+              <div class="card-label">Saldo registrado</div>
+              <div class="metric" id="statBalance">R$ 0</div>
+              <div class="small">Entradas menos saídas</div>
+            </div>
+          </div>
+          <div class="layout">
+            <div>
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>ACESSO RÁPIDO</h2>
+                  <span class="tag">MODULES</span>
+                </div>
+                <div class="quickgrid">
+                  <button class="quick" data-goto="treino">
+                    <span class="qico">⌁</span><b>Treino</b><span>Registrar uma sessão</span>
+                  </button>
+                  <button class="quick" data-goto="estudo">
+                    <span class="qico">▤</span><b>Estudos</b><span>Organizar sua evolução</span>
+                  </button>
+                  <button class="quick" data-goto="notas">
+                    <span class="qico">✎</span><b>Anotações pessoais</b
+                    ><span>Guardar ideias e planos</span>
+                  </button>
+                  <button class="quick" data-goto="financas">
+                    <span class="qico">◉</span><b>Gestão financeira</b
+                    ><span>Entradas e despesas</span>
+                  </button>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>CHECKLIST DO DIA</h2>
+                  <button class="btn" data-goto="dia">ABRIR ROTINA ↗</button>
+                </div>
+                <div id="dashTasks" class="list"></div>
+              </div>
+            </div>
+            <div>
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>ÚLTIMAS ANOTAÇÕES</h2>
+                  <button class="btn" data-goto="notas">VER TODAS</button>
+                </div>
+                <div id="dashNotes" class="list"></div>
+              </div>
+              <div class="panel">
+                <div class="panel-head">
+                  <h2>STATUS DO SISTEMA</h2>
+                  <span class="tag">LOCAL</span>
+                </div>
+                <p class="sub">
+                  Seus dados ficam salvos neste navegador e sincronizam com o servidor local quando
+                  você o executa com <code>node server.js</code>.
+                </p>
+                <div class="progress"><i style="width: 100%"></i></div>
+                <p class="small" style="margin-top: 10px">INTERFACE // CYBERPUNK RGB</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="treino" class="page hidden">
+          <div class="eyebrow" style="padding: 0; color: var(--pink)">MODULE 01 / PERFORMANCE</div>
+          <h1 class="heading">Central de <em style="color: var(--pink)">treino.</em></h1>
+          <p class="sub" style="margin-bottom: 24px">
+            Registre suas sessões e acompanhe a consistência.
+          </p>
+          <div class="layout">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>NOVA SESSÃO</h2>
+                <span class="tag" style="color: var(--pink)">FITNESS LOG</span>
+              </div>
+              <form id="workoutForm">
+                <div class="field">
+                  <label>Treino / grupo muscular</label
+                  ><input
+                    class="input"
+                    name="name"
+                    placeholder="Ex.: Pernas, superior, corrida"
+                    required
+                  />
+                </div>
+                <div class="formrow">
+                  <div class="field">
+                    <label>Duração (min)</label
+                    ><input
+                      class="input"
+                      name="duration"
+                      type="number"
+                      min="1"
+                      placeholder="60"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label>Data</label><input class="input" name="date" type="date" required />
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Exercícios / observações</label
+                  ><textarea
+                    name="details"
+                    placeholder="Exercícios, cargas, como foi o treino..."
+                  ></textarea>
+                </div>
+                <button
+                  class="btn primary"
+                  style="background: var(--pink); border-color: var(--pink)"
+                >
+                  + REGISTRAR TREINO
+                </button>
+              </form>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h2>RESUMO</h2>
+                <span class="tag" style="color: var(--pink)">TRACKER</span>
+              </div>
+              <div class="metric" id="workoutCount">0</div>
+              <p class="small">sessões registradas</p>
+              <div class="metric" id="workoutMinutes">0 min</div>
+              <p class="small">tempo total de treino</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>HISTÓRICO DE TREINOS</h2></div>
+            <div id="workoutList" class="list"></div>
+          </div>
+        </section>
+        <section id="estudo" class="page hidden">
+          <div class="eyebrow" style="padding: 0">MODULE 02 / KNOWLEDGE</div>
+          <h1 class="heading">Modo <em>estudo.</em></h1>
+          <p class="sub" style="margin-bottom: 24px">
+            Transforme tempo de estudo em progresso registrado.
+          </p>
+          <div class="layout">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>NOVA SESSÃO DE ESTUDO</h2>
+                <span class="tag">FOCUS MODE</span>
+              </div>
+              <form id="studyForm">
+                <div class="field">
+                  <label>Matéria / assunto</label
+                  ><input
+                    class="input"
+                    name="subject"
+                    placeholder="Ex.: Matemática — funções"
+                    required
+                  />
+                </div>
+                <div class="formrow">
+                  <div class="field">
+                    <label>Duração (min)</label
+                    ><input
+                      class="input"
+                      name="duration"
+                      type="number"
+                      min="1"
+                      placeholder="50"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label>Data</label><input class="input" name="date" type="date" required />
+                  </div>
+                </div>
+                <div class="field">
+                  <label>O que estudou / resultado</label
+                  ><textarea
+                    name="details"
+                    placeholder="Conteúdos, exercícios feitos, dúvidas..."
+                  ></textarea>
+                </div>
+                <button class="btn primary">+ SALVAR SESSÃO</button>
+              </form>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h2>SEU PROGRESSO</h2>
+                <span class="tag">STUDY TRACKER</span>
+              </div>
+              <div class="metric" id="studyCount">0</div>
+              <p class="small">sessões concluídas</p>
+              <div class="metric" id="studyMinutes">0 min</div>
+              <p class="small">tempo total de foco</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>HISTÓRICO DE ESTUDOS</h2></div>
+            <div id="studyList" class="list"></div>
+          </div>
+        </section>
+        <section id="notas" class="page hidden">
+          <div class="eyebrow" style="padding: 0; color: var(--pink)">
+            MODULE 03 / PERSONAL ARCHIVE
+          </div>
+          <h1 class="heading">Arquivo <em style="color: var(--pink)">pessoal.</em></h1>
+          <p class="sub" style="margin-bottom: 24px">
+            Ideias, reflexões, planos e lembretes em um espaço privado no seu dispositivo.
+          </p>
+          <div class="note-layout">
+            <div class="panel note-list">
+              <div class="panel-head"><h2>ARQUIVO</h2></div>
+              <button class="btn" id="newNote">+ NOVA NOTA</button>
+              <div id="noteList"></div>
+            </div>
+            <div class="panel">
+              <form id="noteForm">
+                <input type="hidden" name="id" />
+                <div class="field">
+                  <label>Título</label
+                  ><input class="input" name="title" placeholder="Nome da anotação" required />
+                </div>
+                <div class="field">
+                  <label>Conteúdo</label
+                  ><textarea
+                    name="body"
+                    style="min-height: 260px"
+                    placeholder="Escreva livremente..."
+                  ></textarea>
+                </div>
+                <button class="btn primary">SALVAR ANOTAÇÃO</button>
+                <button type="button" class="btn danger" id="deleteNote">EXCLUIR</button>
+              </form>
+            </div>
+          </div>
+        </section>
+        <section id="financas" class="page hidden">
+          <div class="eyebrow" style="padding: 0; color: var(--lime)">
+            MODULE 04 / FINANCE CONTROL
+          </div>
+          <h1 class="heading">Gestão <em style="color: var(--lime)">financeira.</em></h1>
+          <p class="sub" style="margin-bottom: 24px">
+            Acompanhe o que entra e sai, sem conectar sua conta bancária.
+          </p>
+          <div class="stats">
+            <div class="card" style="--accent: var(--lime)">
+              <div class="card-label">Saldo do período</div>
+              <div class="metric" id="finBalance">R$ 0,00</div>
+            </div>
+            <div class="card" style="--accent: var(--cyan)">
+              <div class="card-label">Entradas</div>
+              <div class="metric positive" id="finIn">R$ 0,00</div>
+            </div>
+            <div class="card" style="--accent: var(--danger)">
+              <div class="card-label">Despesas</div>
+              <div class="metric negative" id="finOut">R$ 0,00</div>
+            </div>
+            <div class="card" style="--accent: var(--orange)">
+              <div class="card-label">Lançamentos</div>
+              <div class="metric" id="finCount">0</div>
+            </div>
+          </div>
+          <div class="layout">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>NOVO LANÇAMENTO</h2>
+                <span class="tag" style="color: var(--lime)">LEDGER</span>
+              </div>
+              <form id="financeForm">
+                <div class="field">
+                  <label>Descrição</label
+                  ><input
+                    class="input"
+                    name="title"
+                    placeholder="Ex.: mesada, transporte, lanche"
+                    required
+                  />
+                </div>
+                <div class="formrow">
+                  <div class="field">
+                    <label>Tipo</label
+                    ><select name="type">
+                      <option value="out">Despesa</option>
+                      <option value="in">Entrada</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Valor (R$)</label
+                    ><input
+                      class="input"
+                      name="amount"
+                      type="number"
+                      min="0.01"
+                      step="0.01"
+                      placeholder="0,00"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="formrow">
+                  <div class="field">
+                    <label>Categoria</label
+                    ><select name="category">
+                      <option>Alimentação</option>
+                      <option>Transporte</option>
+                      <option>Estudos</option>
+                      <option>Lazer</option>
+                      <option>Saúde</option>
+                      <option>Salário / mesada</option>
+                      <option>Outros</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Data</label><input class="input" name="date" type="date" required />
+                  </div>
+                </div>
+                <button
+                  class="btn primary"
+                  style="color: #071006; background: var(--lime); border-color: var(--lime)"
+                >
+                  + ADICIONAR LANÇAMENTO
+                </button>
+              </form>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>DICA DE CONTROLE</h2></div>
+              <p class="sub">
+                Registre as pequenas despesas também. Elas ajudam a entender para onde o dinheiro
+                está indo.
+              </p>
+              <p class="small" style="margin-top: 15px">
+                DADOS DIGITADOS MANUALMENTE · NÃO É CONSULTORIA FINANCEIRA
+              </p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>EXTRATO</h2></div>
+            <div id="financeList" class="list"></div>
+          </div>
+        </section>
+        <section id="dia" class="page hidden">
+          <div class="eyebrow" style="padding: 0; color: var(--orange)">
+            MODULE 05 / DAILY OPERATIONS
+          </div>
+          <h1 class="heading">Dia a <em style="color: var(--orange)">dia.</em></h1>
+          <p class="sub" style="margin-bottom: 24px">
+            Monte uma rotina realista e marque cada etapa quando concluir.
+          </p>
+          <div class="layout">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>NOVA TAREFA</h2>
+                <span class="tag" style="color: var(--orange)">DAILY CHECKLIST</span>
+              </div>
+              <form id="taskForm">
+                <div class="field">
+                  <label>O que precisa fazer?</label
+                  ><input
+                    class="input"
+                    name="title"
+                    placeholder="Ex.: organizar mochila"
+                    required
+                  />
+                </div>
+                <div class="formrow">
+                  <div class="field">
+                    <label>Categoria</label
+                    ><select name="category">
+                      <option>Rotina</option>
+                      <option>Casa</option>
+                      <option>Compromisso</option>
+                      <option>Saúde</option>
+                      <option>Projeto</option>
+                      <option>Outro</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Data</label><input class="input" name="date" type="date" required />
+                  </div>
+                </div>
+                <button
+                  class="btn primary"
+                  style="background: var(--orange); border-color: var(--orange); color: #211304"
+                >
+                  + ADICIONAR TAREFA
+                </button>
+              </form>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h2>CONCLUSÃO DO DIA</h2></div>
+              <div class="metric" id="taskProgress">0%</div>
+              <p class="small">das tarefas concluídas</p>
+              <div class="progress">
+                <i
+                  id="taskBar"
+                  style="width: 0%; background: linear-gradient(90deg, var(--orange), var(--lime))"
+                ></i>
+              </div>
+              <p class="sub" id="taskSummary" style="margin-top: 14px">
+                Nenhuma tarefa cadastrada.
+              </p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <h2>LISTA DE TAREFAS</h2>
+              <button class="btn" id="clearDone">LIMPAR CONCLUÍDAS</button>
+            </div>
+            <div id="taskList" class="list"></div>
+          </div>
+        </section>
+        <section id="assistente" class="page hidden">
+          <div class="eyebrow" style="padding: 0; color: var(--cyan)">MODULE 06 / AI CORE</div>
+          <h1 class="heading">Assistente <em>Jarvis.</em></h1>
+          <p class="sub" style="margin-bottom: 24px">
+            Converse com o Gemini sobre seus dados ou peça para registrar tarefas, treinos, estudos,
+            notas e gastos.
+          </p>
+          <div class="panel chat-panel">
+            <div class="panel-head">
+              <h2>CONSOLE</h2>
+              <div class="chat-tools">
+                <span class="tag" id="aiStatus">…</span>
+                <button class="btn" id="cfgToggle" type="button" aria-label="Configurações">
+                  ⚙
+                </button>
+                <button class="btn" id="chatClear" type="button">LIMPAR</button>
+              </div>
+            </div>
+            <div id="cfgBox" class="cfg hidden">
+              <div class="field">
+                <label>Chave da API Gemini (salva só no seu computador, em config.json)</label>
+                <input
+                  class="input"
+                  id="cfgKey"
+                  type="password"
+                  placeholder="Cole a chave (aistudio.google.com/apikey)"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="field">
+                <label>Modelo</label>
+                <input class="input" id="cfgModel" value="gemini-2.5-flash" />
+              </div>
+              <button class="btn primary" id="cfgSave" type="button">SALVAR</button>
+            </div>
+            <div id="chatLog" class="chat-log"></div>
+            <form id="chatForm" class="chat-form">
+              <input
+                class="input"
+                id="chatInput"
+                placeholder='Ex.: "gastei 25 reais com lanche"'
+                autocomplete="off"
+              />
+              <button class="btn primary">ENVIAR</button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
